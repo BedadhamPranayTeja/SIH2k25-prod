@@ -20,7 +20,7 @@ const ProblemUpdateSchema = z
 function requireAdmin(request: NextRequest) {
   const token = getTokenFromRequest(request);
   const payload = token ? verifyToken(token) : null;
-  if (!payload || !["admin", "mentor"].includes(payload.role)) {
+  if (!payload || payload.role !== "admin") {
     return null;
   }
   return payload;

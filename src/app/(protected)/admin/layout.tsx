@@ -12,6 +12,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     { href: "/admin/problems", label: "Problems" },
     { href: "/admin/rounds", label: "Rounds" },
     { href: "/admin/criteria", label: "Criteria" },
+    { href: "/admin/scores", label: "Final Scores" },
+    { href: "/admin/leaderboard", label: "Leaderboard" },
   ];
 
   return (

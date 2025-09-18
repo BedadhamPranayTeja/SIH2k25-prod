@@ -38,7 +38,8 @@ export async function middleware(request: NextRequest) {
   // Role-based access control for admin area
   if (
     pathname.startsWith("/admin") &&
-    !["admin", "mentor"].includes(String(payload?.role || ""))
+    String(payload?.role || "") !== "admin" &&
+    String(payload?.role || "") !== "mentor"
   ) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
