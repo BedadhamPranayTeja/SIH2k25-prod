@@ -1,36 +1,160 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SIH Internal Hackathon 2025 Platform
 
-## Getting Started
+A complete hackathon management platform built with Next.js 14, MongoDB, and TypeScript.
 
-First, run the development server:
+## 🚀 Quick Deploy to Vercel
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/yourusername/sih-hackathon-2025)
+
+## ⚡ Local Development Setup
+
+### Prerequisites
+
+- Node.js 18+
+- MongoDB Atlas account
+- Git
+
+### Installation
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <your-repo-url>
+   cd sih-hackathon-2025
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Environment Setup**
+
+   ```bash
+   cp .env.example .env.local
+   ```
+
+   Fill in your environment variables:
+
+   ```env
+   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/sih2025?retryWrites=true&w=majority
+   JWT_SECRET=your-super-secret-jwt-key-here
+   NEXT_PUBLIC_APP_ENV=development
+   NEXT_PUBLIC_HACKATHON_START=2025-09-19T09:00:00.000Z
+   NEXT_PUBLIC_HACKATHON_END=2025-09-20T17:00:00.000Z
+   ```
+
+4. **Seed the database**
+
+   ```bash
+   npm run seed
+   ```
+
+5. **Start development server**
+
+   ```bash
+   npm run dev
+   ```
+
+6. **Open your browser**
+   Navigate to `http://localhost:3000`
+
+## 🔑 Default Login Credentials
+
+After seeding:
+
+- **Admin**: admin@sih2025.in / admin123
+- **Mentors**: \*.mentor@sih2025.in / mentor123
+
+## 📱 Features
+
+### For Participants
+
+- ✅ Team registration and management
+- ✅ Problem statement browsing
+- ✅ Solution submission with file upload
+- ✅ Real-time leaderboard
+- ✅ Dashboard with progress tracking
+- ✅ Countdown timer for hackathon
+
+### For Mentors/Admins
+
+- ✅ Team and submission management
+- ✅ Scoring system
+- ✅ Admin dashboard
+- ✅ User role management
+
+## 🏗️ Tech Stack
+
+- **Frontend**: Next.js 14, TypeScript, Tailwind CSS
+- **Backend**: Next.js API Routes, MongoDB
+- **Database**: MongoDB Atlas with Mongoose
+- **Authentication**: JWT with httpOnly cookies
+- **UI Components**: Radix UI + shadcn/ui
+- **Deployment**: Vercel
+
+## 🔧 Scripts
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run start        # Start production server
+npm run lint         # Run ESLint
+npm run type-check   # Run TypeScript checks
+npm run seed         # Seed database with sample data
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📊 Database Structure
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Users** - Team members, leaders, mentors, admins
+- **Teams** - Team information and member details
+- **Submissions** - Project submissions by round
+- **Scores** - Mentor scores and evaluations
+- **Problem Statements** - Available challenges
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Production Deployment
 
-## Learn More
+### MongoDB Atlas Setup
 
-To learn more about Next.js, take a look at the following resources:
+1. Create a MongoDB Atlas cluster
+2. Create a database user with read/write permissions
+3. Add your server's IP to the IP whitelist
+4. Copy the connection string
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Vercel Deployment
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Push code to GitHub
+2. Import project in Vercel
+3. Add environment variables in Vercel dashboard
+4. Deploy!
 
-## Deploy on Vercel
+### Environment Variables for Production
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```env
+MONGODB_URI=your-production-mongodb-uri
+JWT_SECRET=your-production-jwt-secret
+NEXT_PUBLIC_APP_ENV=production
+NEXT_PUBLIC_HACKATHON_START=2025-09-19T09:00:00.000Z
+NEXT_PUBLIC_HACKATHON_END=2025-09-20T17:00:00.000Z
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🔒 Security Features
+
+- JWT authentication with httpOnly cookies
+- Password hashing with bcrypt
+- Request validation with Zod
+- Role-based access control
+- Protected API routes
+- CORS configuration
+
+## 📞 Support
+
+For issues and support:
+
+- Email: codebreakers260@gmail.com
+- Create an issue on GitHub
+
+## 📄 License
+
+MIT License - see LICENSE file for details
