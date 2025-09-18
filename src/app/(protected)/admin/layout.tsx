@@ -10,6 +10,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
   const nav = [
     { href: "/admin", label: "Overview" },
     { href: "/admin/problems", label: "Problems" },
+    { href: "/admin/rounds", label: "Rounds" },
   ];
 
   return (
@@ -39,5 +40,3 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     </div>
   );
 }
-
-
