@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import { Submission } from "@/models/Submission";
 import { SubmissionSchema } from "@/lib/validation";
+import { Round } from "@/models/Round";
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,6 +23,22 @@ export async function POST(request: NextRequest) {
 
     // Validate submission data
     const validatedFields = SubmissionSchema.parse(fields);
+
+    // Enforce active round window
+    const roundDoc = await Round.findOne({ round, isActive: true });
+    if (!roundDoc) {
+      return NextResponse.json(
+        { message: "Round not active" },
+        { status: 400 }
+      );
+    }
+    const now = new Date();
+    if (now < roundDoc.startAt || now > roundDoc.endAt) {
+      return NextResponse.json(
+        { message: "Submission window closed" },
+        { status: 400 }
+      );
+    }
 
     // Check if submission already exists for this round
     const existingSubmission = await Submission.findOne({ teamCode, round });
