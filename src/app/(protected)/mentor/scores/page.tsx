@@ -1,18 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export default function MentorScoresPage() {
   const [teamCode, setTeamCode] = useState("");
   const [round, setRound] = useState(1);
-  const [criteria, setCriteria] = useState({
-    innovation: 0,
-    feasibility: 0,
-    technical: 0,
-    presentation: 0,
-  });
+  const [criteriaDefs, setCriteriaDefs] = useState<
+    Array<{ key: string; name: string; maxScore: number; weight: number }>
+  >([]);
+  const [scores, setScores] = useState<Record<string, number>>({});
   const [comments, setComments] = useState("");
   const [status, setStatus] = useState<string | null>(null);
 
@@ -21,7 +19,7 @@ export default function MentorScoresPage() {
     const res = await fetch("/api/scores/mentor", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ teamCode, round, criteria, comments }),
+      body: JSON.stringify({ teamCode, round, criteria: scores, comments }),
     });
     if (!res.ok) {
       const data = await res.json().catch(() => ({}));
@@ -33,7 +31,21 @@ export default function MentorScoresPage() {
 
   useEffect(() => {
     setStatus(null);
-  }, [teamCode, round, criteria, comments]);
+  }, [teamCode, round, scores, comments]);
+
+  useEffect(() => {
+    (async () => {
+      const res = await fetch("/api/admin/criteria");
+      if (res.ok) {
+        const data = await res.json();
+        const defs = (data.items || []).filter((c: any) => c.isActive);
+        setCriteriaDefs(defs);
+        const init: Record<string, number> = {};
+        defs.forEach((c: any) => (init[c.key] = 0));
+        setScores(init);
+      }
+    })();
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -60,16 +72,18 @@ export default function MentorScoresPage() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {Object.keys(criteria).map((k) => (
-            <div key={k} className="space-y-1">
-              <label className="text-sm text-gray-700 capitalize">{k}</label>
+          {criteriaDefs.map((c) => (
+            <div key={c.key} className="space-y-1">
+              <label className="text-sm text-gray-700">
+                {c.name} (0–{c.maxScore})
+              </label>
               <Input
                 type="number"
                 min={0}
-                max={10}
-                value={(criteria as any)[k]}
+                max={c.maxScore}
+                value={Number(scores[c.key] ?? 0)}
                 onChange={(e) =>
-                  setCriteria({ ...criteria, [k]: Number(e.target.value) })
+                  setScores({ ...scores, [c.key]: Number(e.target.value) })
                 }
               />
             </div>
